@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36109.1 d17.14
+VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{FBFCE012-BA43-44A5-BFFA-A075A1B4B371}"
 EndProject
@@ -30,6 +30,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99_Test", "99_Test", "{BE093645-38D3-451B-A69E-6C023615E84E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTester", "DevTester\DevTester.csproj", "{906EC2CD-DB96-4CFE-A8A6-94C22175D0EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAtabase Scripts", "DAtabase Scripts", "{CF9CAF9C-AD72-4585-9CEB-25F890C0EC8D}"
+	ProjectSection(SolutionItems) = preProject
+		SP_CreateMovie.sql = SP_CreateMovie.sql
+		SP_CreateUser.sql = SP_CreateUser.sql
+		TBL_Movie.sql = TBL_Movie.sql
+		TBL_User.sql = TBL_User.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +85,7 @@ Global
 		{921E3F3C-0505-4417-8083-4B93CC6DE917} = {08F6BE01-8E27-4B69-860D-5F5FAC6F9417}
 		{A5D69762-3087-464E-8B9A-53BC58B64675} = {3F704CE4-0749-487E-9711-C51DB87ED890}
 		{906EC2CD-DB96-4CFE-A8A6-94C22175D0EB} = {BE093645-38D3-451B-A69E-6C023615E84E}
+		{CF9CAF9C-AD72-4585-9CEB-25F890C0EC8D} = {144B232E-0067-4DD7-8A87-DC3DC91C8DB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C6804DB-18E2-4BD5-B3A7-4DA452B6F133}
