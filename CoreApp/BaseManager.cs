@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace CoreApp
 {
     public class BaseManager
     {
+        
         protected void ManageException(Exception exception)
         {
             throw exception;

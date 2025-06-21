@@ -59,7 +59,7 @@ namespace CoreApp
                 ManageException(ex);
             }
         }
-
+        
         private bool IsOver18(User user)
         {
             var currentDate = DateTime.Now;
