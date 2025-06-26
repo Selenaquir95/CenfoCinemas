@@ -15,42 +15,29 @@ namespace WebAPI.Controllers
     {
         [HttpPost]
         [Route("Create")]
-        
+
         public ActionResult Create(User user)
         {
-            try{
+            try
+            {
                 var um = new UserManager();
                 um.Create(user);
                 return Ok(user);
             }
-            catch (Exception ex) 
-            {
-                return StatusCode(500, ex.Message);
-            }
-         }
-        [HttpGet]
-        [Route("RetriveAll")]
-        public ActionResult RetrieveAll(User user)
-        {
-            try
-            {
-                var um = new UserManager();
-                var lstResults = new RetrieveAll();
-            }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-
         [HttpGet]
-        [Route("RetrieveById")]
-        public ActionResult RetrieveById()
+        [Route("RetrieveAll")]
+        public ActionResult RetrieveAll()
         {
             try
             {
                 var um = new UserManager();
-                var lstResults = new RetrieveById();
+                var lstResults = um.RetrieveAll();
+                return Ok(lstResults);
             }
             catch (Exception ex)
             {
@@ -58,6 +45,39 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("RetrieveById")]
+        public ActionResult RetrieveById(int id)
+        {
+            try
+            {
+                var um = new UserManager();
+                var result = um.RetrieveById(id);
+
+               return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("RetrieveByEmail")]
+        public ActionResult RetrieveByEmail(User user)
+        {
+            try
+            {
+                var um = new UserManager();
+                var result = um.RetrieveByEmail(user);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
 
         [HttpGet]
         [Route("RetrieveByUserCode")]
@@ -65,11 +85,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var user = new User { UserCode = userCode };
-                var result = _crud.RetrieveByUserCode<User>(user);
-
-                if (result == null)
-                    return NotFound(new { error = "Usuario no encontrado con ese código." });
+                var um = new UserManager();
+                var result = um.RetrieveByUserCode(user);
 
                 return Ok(result);
             }
@@ -81,12 +98,36 @@ namespace WebAPI.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public ActionResult Update(User user) 
+        public ActionResult Update(User user)
         {
+            try
+            {
+                var um = new UserManager();
+                um.Update(user);
 
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
+        [HttpDelete]
+        public ActionResult Delete(User user)
+        {
+            try
+            {
+                var um = new UserManager();
+                um.Delete(user);
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
 
-
+            }
+        }
     }
 }
+

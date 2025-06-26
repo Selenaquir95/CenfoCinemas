@@ -1,5 +1,7 @@
 ﻿using DataAccess.CRUD;
 using DTOs;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,7 @@ namespace CoreApp
          * valida que el correo electronico no esté registrado
          * Envia el correo electronico de bienvenida
          */
-        public void Create(User user)
+        public async void Create(User user)
         {
             try
             {
@@ -38,6 +40,9 @@ namespace CoreApp
                         {
                             uCrud.Create(user);
                             // AQUI VA SIGUE EL ENVIO DE CORREO
+                            var emailService = new EmailManager();
+                            await emailService.SendEmailUser(user);
+
                         }
                         else
                         {
@@ -59,7 +64,39 @@ namespace CoreApp
                 ManageException(ex);
             }
         }
-        
+
+        public List<User> RetrieveAll()
+        {
+                var uCrud = new UserCrudFactory();
+                return uCrud.RetrieveAll<User>();
+        }
+
+        public User RetrieveById(int id)
+        {
+            var uCrud = new UserCrudFactory();
+            return uCrud.RetrieveById<User>(id);
+        }
+
+        public User RetrieveByUserCode(User user)
+        {
+            var uCrud = new UserCrudFactory();
+            return uCrud.RetrieveByUserCode<User>(user);
+        }
+        public User RetrieveByEmail(User user)
+        {
+            var uCrud = new UserCrudFactory();
+            return uCrud.RetrieveByEmail<User>(user);
+        }
+        public void Update(User user)
+        {
+            var uCrud = new UserCrudFactory();
+            uCrud.Update(user);
+        }
+        public void Delete(User user)
+        {
+            var uCrud = new UserCrudFactory();
+            uCrud.Delete(user);
+        }
         private bool IsOver18(User user)
         {
             var currentDate = DateTime.Now;
@@ -73,7 +110,9 @@ namespace CoreApp
             return age >= 18;
 
         }
+        
     }
+
 }
 
 

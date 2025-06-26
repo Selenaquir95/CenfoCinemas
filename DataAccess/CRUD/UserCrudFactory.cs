@@ -38,10 +38,10 @@ namespace DataAccess.CRUD
         {
             var lstUsers = new List<T>();
             var sqlOperation = new SqlOperation() { ProcedureName = "RET_ALL_USERS_PR" };
-            var lstReults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
-            if (lstUsers.Count > 0)
+            var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
+            if (lstResults.Count > 0)
             {
-                foreach (var row in lstReults) {
+                foreach (var row in lstResults) {
                     var user = BuildUser(row);
                     lstUsers.Add((T)Convert.ChangeType(user, typeof(T)));
                 }

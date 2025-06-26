@@ -3,6 +3,8 @@ using CoreApp;
 using DataAccess.CRUD;
 using DataAccess.DAOs;
 using DTOs;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System.Diagnostics;
 using System.IO;
 
@@ -54,7 +56,7 @@ public class Program
                     BirthDate = bdate,
                 };
                 var um = new UserManager();
-                um.Create(user);
+                um.CreateAsync(user);
                 break;
 
             case 5:
@@ -73,7 +75,17 @@ public class Program
                 Console.WriteLine("Escriba el nombre del director de la película");
                 var director = Console.ReadLine();
 
+                var movie = new Movie()
+                {
+                    Title = title,
+                    Description = description,
+                    ReleaseDate = release,
+                    Genre = genre,
+                    Director = director,
+                };
 
+                var mm = new MovieManager();
+                mm.CreateAsync(movie);
                 break;
 
         }

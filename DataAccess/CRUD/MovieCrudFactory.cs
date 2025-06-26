@@ -24,13 +24,8 @@ namespace DataAccess.CRUD
             sqlOperation.AddDateTimeParam("P_Release", movie.ReleaseDate);
             sqlOperation.AddStringParameter("P_Genre", movie.Genre);
             sqlOperation.AddStringParameter("P_Director", movie.Director);
-            
-            _sqlDao.ExecuteProcedure(sqlOperation);
-        }
 
-        public override void Delete(BaseDTO baseDTO)
-        {
-            throw new NotImplementedException();
+            _sqlDao.ExecuteProcedure(sqlOperation);
         }
 
         public override T Retrieve<T>()
@@ -43,7 +38,7 @@ namespace DataAccess.CRUD
             var lstMovie = new List<T>();
             var sqlOperation = new SqlOperation() { ProcedureName = "RET_ALL_MOVIES_PR" };
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
-            if (lstMovie.Count > 0)
+            if (lstResults.Count > 0)
             {
                 foreach (var row in lstResults)
                 {
@@ -95,6 +90,7 @@ namespace DataAccess.CRUD
         {
             var movie = new Movie()
             {
+                Id = (int)row["Id"],
                 Created = (DateTime)row["Created"],
                 Title = (string)row["Title"],
                 Description = (string)row["Description"],
@@ -102,6 +98,10 @@ namespace DataAccess.CRUD
                 Director = (string)row["Director"],
             };
             return movie;
+        }
+        public override void Delete(BaseDTO baseDTO)
+        {
+            throw new NotImplementedException();
         }
     }
 }
