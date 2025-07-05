@@ -103,9 +103,12 @@ namespace WebAPI.Controllers
             try
             {
                 var um = new UserManager();
-                um.Update(user);
-
-                return Ok(user);
+                var updated = um.Update(user);
+                return Ok(updated);
+            }
+            catch (KeyNotFoundException kmf)
+            { 
+                return NotFound(new { error = kmf.Message });
             }
             catch (Exception ex)
             {
@@ -119,8 +122,9 @@ namespace WebAPI.Controllers
             try
             {
                 var um = new UserManager();
-                um.Delete(user);
-                return Ok(user);
+                var existing = um.RetrieveById(user.Id);
+                um.Delete(user.Id);
+                return Ok(new { Message = $"Usuario con ID {user.Id} eliminado correctamente." });
             }
             catch (Exception ex)
             {

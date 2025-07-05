@@ -1,0 +1,77 @@
+﻿@page
+@model WebApp.Pages.MoviesModel
+@{
+}
+<script src="~/js/pages/movies.js"></script>
+
+<h1>Movies List</h1>
+
+
+<div class="    bs-docs-section">
+
+    <div class="row">
+        <legend>Movies List</legend>
+        <div class="col-lg-12">
+
+            <table id="tblMovie" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Release Date</th>
+                        <th>Genre</th>
+                        <th>Director</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ns-component">
+                <form>
+                    <fieldset>
+                        <legend>Movie form</legend>
+                        <div class="form-group">
+                            <label for="txtId" class="form-label mt-$">User ID</label>
+                            <input id="txtId" readonly type="number" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtTitle" class="form-label mt-$">Title</label>
+                            <input id="txtTitle" type="text" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtDescription" class="form-label mt-$">Description</label>
+                            <input id="txtDescription" type="text" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtRDate" class="form-label mt-$">Release date</label>
+                            <input id="txtRDate" type="date" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtGenre" class="form-label mt-$">Genre</label>
+                            <input id="txtGenre" type="text" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtDirector" class="form-label mt-$">Director</label>
+                            <input id="txtDirector" type="text" class="form-control" />
+                        </div>
+                    </fieldset>
+                </form>
+                <br />
+                <button id="btnCreate" class="source-button btn btn-primary btn-xs" type="button">Save</button>
+                <button id="btnUpdate" class="source-button btn btn-info btn-xs" type="button">Update</button>
+                <button id="btnDelete" class="source-button btn btn-danger btn-xs" type="button">Delete</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

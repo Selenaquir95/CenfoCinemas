@@ -49,23 +49,23 @@ namespace CoreApp
             var mCrud = new MovieCrudFactory();
             return mCrud.RetrieveById<Movie>(id);
         }
-        public Movie RetrieveByTitle(Movie movie)
+        public Movie RetrieveByTitle(string title)
         {
-            var mCrud = new MovieCrudFactory();
-            return mCrud.RetrieveByTitle<Movie>(movie);
+            var dto = new Movie { Title = title };
+            return RetrieveByTitle(dto);
 
         }
-        public void Update(Movie movie)
+
+        private Movie RetrieveByTitle(Movie dto)
         {
-            try
-            {
-                var mCrud = new MovieCrudFactory();
-                mCrud.Update(movie);
-            }
-            catch (Exception ex)
-            {
-                ManageException(ex);
-            }
+            throw new NotImplementedException();
+        }
+
+        public Movie Update(Movie movie)
+        {
+            var mCrud = new MovieCrudFactory();
+            mCrud.Update(movie);
+            return RetrieveById(movie.Id);
         }
         public void Delete(Movie movie)
         {
@@ -78,6 +78,11 @@ namespace CoreApp
             {
                 ManageException(ex);
             }
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

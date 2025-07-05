@@ -80,22 +80,25 @@ namespace CoreApp
         public User RetrieveByUserCode(User user)
         {
             var uCrud = new UserCrudFactory();
+            var udto = new User { UserCode = user.UserCode };
             return uCrud.RetrieveByUserCode<User>(user);
         }
         public User RetrieveByEmail(User user)
         {
             var uCrud = new UserCrudFactory();
+            var udto = new User { Email = user.Email };
             return uCrud.RetrieveByEmail<User>(user);
         }
-        public void Update(User user)
+        public User Update(User user)
         {
             var uCrud = new UserCrudFactory();
             uCrud.Update(user);
+            return RetrieveById(user.Id);
         }
-        public void Delete(User user)
+        public void Delete(int id)
         {
             var uCrud = new UserCrudFactory();
-            uCrud.Delete(user);
+            uCrud.Delete(new User { Id = id });
         }
         private bool IsOver18(User user)
         {

@@ -84,7 +84,17 @@ namespace DataAccess.CRUD
 
         public override void Update(BaseDTO baseDTO)
         {
-            throw new NotImplementedException();
+            var movie = baseDTO as Movie;
+            var sqlOperation = new SqlOperation() { ProcedureName = "UPD_MOVIE_PR" };
+
+            sqlOperation.AddIntParam("P_Id", movie.Id);
+            sqlOperation.AddStringParameter("P_Title", movie.Title);
+            sqlOperation.AddStringParameter("P_Description", movie.Description);
+            sqlOperation.AddDateTimeParam("P_Release", movie.ReleaseDate);
+            sqlOperation.AddStringParameter("P_Genre", movie.Genre);
+            sqlOperation.AddStringParameter("P_Director", movie.Director);
+
+            _sqlDao.ExecuteProcedure(sqlOperation);
         }
         private Movie BuildMovie(Dictionary<string, object> row)
         {
@@ -94,6 +104,7 @@ namespace DataAccess.CRUD
                 Created = (DateTime)row["Created"],
                 Title = (string)row["Title"],
                 Description = (string)row["Description"],
+                ReleaseDate = (DateTime)row["Release"],
                 Genre = (string)row["Genre"],
                 Director = (string)row["Director"],
             };
@@ -101,7 +112,11 @@ namespace DataAccess.CRUD
         }
         public override void Delete(BaseDTO baseDTO)
         {
-            throw new NotImplementedException();
+            var movie = baseDTO as Movie;
+            var sqlOperation = new SqlOperation() { ProcedureName = "DEL_MOVIE_PR" };
+
+            sqlOperation.AddIntParam("P_ID", movie.Id);
+            _sqlDao.ExecuteProcedure(sqlOperation);
         }
     }
 }

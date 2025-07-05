@@ -11,12 +11,15 @@ var app = builder.Build();
 //CORS: Permitimos requests de cualquier origen 
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Production")
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRouting();
+
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 

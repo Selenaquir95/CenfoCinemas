@@ -56,13 +56,15 @@ namespace WebAPI.Controllers
         }
         [HttpGet]
         [Route("RetrieveByTitle")]
-        public ActionResult RetrieveByTitle(Movie movie)
+        public ActionResult RetrieveByTitle(string title)
         {
             try
             {
                 var mm = new MovieManager();
-                var result = mm.RetrieveByTitle(movie);
-                return Ok(result);
+                var movie = mm.RetrieveByTitle(title);
+                if (movie == null)
+                    return NotFound($"No se halló película con título '{title}'.");
+                return Ok(movie);
             }
             catch (Exception ex)
             {
@@ -76,7 +78,7 @@ namespace WebAPI.Controllers
             try
             {
                 var mm = new MovieManager();
-                mm.Update(movie);
+                var update = mm.Update(movie);
                 return Ok(movie);
             }
             catch (Exception ex)
@@ -91,8 +93,10 @@ namespace WebAPI.Controllers
             try
             {
                 var mm = new MovieManager();
-                mm.Delete(movie);
-                return Ok(movie);
+                var result = mm.RetrieveById(movie.Id);
+                mm.Delete(movie.Id);
+                return Ok(new { Message = $"Película con ID {movie.Id} fue borrada exitosamente." });
+
             }
             catch (Exception ex)
             {
