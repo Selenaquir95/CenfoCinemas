@@ -18,11 +18,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.MapGet("/", context =>
-{
-    context.Response.Redirect("/Users");
-    return Task.CompletedTask;
-});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
