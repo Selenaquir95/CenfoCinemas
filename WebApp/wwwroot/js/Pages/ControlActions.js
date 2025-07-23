@@ -34,6 +34,7 @@
 				},
 				"columns": arrayColumnsData
 			});
+
 		} else {
 			//RECARGA LA TABLA
 			$('#' + tableId).DataTable().ajax.reload();

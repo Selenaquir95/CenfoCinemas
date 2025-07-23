@@ -39,11 +39,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAtabase Scripts", "DAtabas
 		RET_USER_BY_EMAIL_PR.sql = RET_USER_BY_EMAIL_PR.sql
 		SP_CreateMovie.sql = SP_CreateMovie.sql
 		SP_CreateUser.sql = SP_CreateUser.sql
+		SP_DEL_MOVIE_PR.sql = SP_DEL_MOVIE_PR.sql
 		SP_DEL_USER_PR.sql = SP_DEL_USER_PR.sql
 		SP_RET_ALL_USERS.sql = SP_RET_ALL_USERS.sql
 		SP_RET_USER_BY_CODE_PR.sql = SP_RET_USER_BY_CODE_PR.sql
 		SP_RET_USER_BY_ID_PR.sql = SP_RET_USER_BY_ID_PR.sql
+		SP_UPD_MOVIE_PR.sql = SP_UPD_MOVIE_PR.sql
 		TBL_Movie.sql = TBL_Movie.sql
+		SP_UPD_USER_PR.sql = SP_UPD_USER_PR.sql
 		TBL_User.sql = TBL_User.sql
 	EndProjectSection
 EndProject

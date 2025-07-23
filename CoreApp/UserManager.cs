@@ -19,7 +19,7 @@ namespace CoreApp
          * valida que el correo electronico no esté registrado
          * Envia el correo electronico de bienvenida
          */
-        public async void Create(User user)
+        public async Task Create(User user)
         {
             try
             {
@@ -29,19 +29,19 @@ namespace CoreApp
                     var uCrud = new UserCrudFactory();
 
                     //Consultamos en la bd si existe un usuario con ese código
-                    var uExist = uCrud.RetrieveByUserCode<User>(user);
+                    var uExist = uCrud.RetrieveByUserCode<User>(user.UserCode);
 
                     if (uExist == null)
                     {
                         //Consultamos si en la bd existe un usuario con ese email.
-                        uExist = uCrud.RetrieveByEmail<User>(user);
+                        uExist = uCrud.RetrieveByEmail<User>(user.Email);
 
                         if (uExist == null)
                         {
                             uCrud.Create(user);
                             // AQUI VA SIGUE EL ENVIO DE CORREO
-                            var emailService = new EmailManager();
-                            await emailService.SendEmailUser(user);
+                            //var emailService = new EmailManager();
+                            //await emailService.SendEmailUser(user);
 
                         }
                         else
@@ -77,17 +77,15 @@ namespace CoreApp
             return uCrud.RetrieveById<User>(id);
         }
 
-        public User RetrieveByUserCode(User user)
+        public User RetrieveByUserCode(string UserCode)
         {
             var uCrud = new UserCrudFactory();
-            var udto = new User { UserCode = user.UserCode };
-            return uCrud.RetrieveByUserCode<User>(user);
+            return uCrud.RetrieveByUserCode<User>(UserCode);
         }
-        public User RetrieveByEmail(User user)
+        public User RetrieveByEmail(string Email)
         {
             var uCrud = new UserCrudFactory();
-            var udto = new User { Email = user.Email };
-            return uCrud.RetrieveByEmail<User>(user);
+            return uCrud.RetrieveByEmail<User>(Email);
         }
         public User Update(User user)
         {

@@ -22,6 +22,18 @@ function UserViewController() {
             var vc = new UserViewController();
             vc.Delete();
         });
+        $('#btnSearchById').click(function () {
+            var vc = new UserViewController();
+            vc.LoadTableById();
+        });
+        $('#btnSearchByUserCode').click(function () {
+            var vc = new UserViewController();
+            vc.LoadTableByUserCode();
+        });
+        $('#btnSearchByEmail').click(function () {
+            var vc = new UserViewController();
+            vc.LoadTableByEmail();
+        });
     }
 
     //Metodo cargar tabla
@@ -35,27 +47,6 @@ function UserViewController() {
         var urlService = ca.GetUrlApiService(service);
 
 
-        /*
-    {
-        "userCode": "1234",
-        "name": "Selena",
-        "email": "squiross@ucenfotec.ac.cr",
-        "password": "1234Cenfo",
-        "birthDate": "2000-10-01T00:00:00",
-        "status": "AC",
-        "id": 1,
-        "created": "2025-06-14T13:19:44.433",
-        "updated": "0001-01-01T00:00:00"
-      }
-      <tr>
-                            <th>Id </th>
-                            <th>User Code</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Birth Date</th>
-                            <th>Status</th>
-                        </tr>
-    */
         var columns = [];
         columns[0] = { 'data': 'id' }
         columns[1] = { 'data': 'userCode' }
@@ -166,7 +157,130 @@ function UserViewController() {
             $('#tblUser').DataTable().ajax.reload();
         })
     }
+    this.LoadTableById = function () {
+
+        var id = $('#txtSearchId').val().trim();
+
+        var ca = new ControlActions();
+        var service = this.ApiEndPointName + "/RetrieveById?id=" + id;
+        var urlService = ca.GetUrlApiService(service);
+
+        if (!id) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'ID requerido',
+                text: 'Por favor, ingrese un ID válido antes de continuar.',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+
+        var columns = [];
+        columns[0] = { 'data': 'id' };
+        columns[1] = { 'data': 'userCode' };
+        columns[2] = { 'data': 'name' };
+        columns[3] = { 'data': 'email' };
+        columns[4] = { 'data': 'birthDate' };
+        columns[5] = { 'data': 'status' };
+
+        // Destruye la tabla si ya existía
+        if ($.fn.DataTable.isDataTable('#tblUser')) {
+            $('#tblUser').DataTable().clear().destroy();
+        }
+
+        $('#tblUser').dataTable({
+            "ajax": {
+                url: urlService,
+                "dataSrc": function (json) {
+                    return Array.isArray(json) ? json : [json];
+                },
+                
+            },
+            columns: columns
+        });
+
+    }
+    this.LoadTableByUserCode = function () {
+        var userCode = $('#txtSearchUserCode').val().trim();
+
+        var ca = new ControlActions();
+        var service = this.ApiEndPointName + "/RetrieveByUserCode?userCode=" + userCode;
+        var urlService = ca.GetUrlApiService(service);
+
+        if (!userCode) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'UserCode requerido',
+                text: 'Por favor, ingrese un UserCode válido antes de continuar.',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+        var columns = [];
+        columns[0] = { 'data': 'id' }
+        columns[1] = { 'data': 'userCode' }
+        columns[2] = { 'data': 'name' }
+        columns[3] = { 'data': 'email' }
+        columns[4] = { 'data': 'birthDate' }
+        columns[5] = { 'data': 'status' }
+
+        // Destruye la tabla si ya existía
+        if ($.fn.DataTable.isDataTable('#tblUser')) {
+            $('#tblUser').DataTable().clear().destroy();
+        }
+
+        $('#tblUser').dataTable({
+            "ajax": {
+                url: urlService,
+                "dataSrc": function (json) {
+                    return Array.isArray(json) ? json : [json];
+                },
+
+            },
+            columns: columns
+        });
+    }
+    this.LoadTableByEmail = function () {
+        var email = $('#txtSearchEmail').val().trim()
+        var ca = new ControlActions();
+        var service = this.ApiEndPointName + "/RetrieveByEmail?email=" + email;
+        var urlService = ca.GetUrlApiService(service);
+        if (!email) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Email requerido',
+                text: 'Por favor, ingrese un Email válido antes de continuar.',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+        var columns = [];
+        columns[0] = { 'data': 'id' }
+        columns[1] = { 'data': 'userCode' }
+        columns[2] = { 'data': 'name' }
+        columns[3] = { 'data': 'email' }
+        columns[4] = { 'data': 'birthDate' }
+        columns[5] = { 'data': 'status' }
+
+        // Destruye la tabla si ya existía
+        if ($.fn.DataTable.isDataTable('#tblUser')) {
+            $('#tblUser').DataTable().clear().destroy();
+        }
+
+        $('#tblUser').dataTable({
+            "ajax": {
+                url: urlService,
+                "dataSrc": function (json) {
+                    return Array.isArray(json) ? json : [json];
+                },
+
+            },
+            columns: columns
+        });
+    }
+  
 }
+
 
 $(document).ready(function () {
     var vc = new UserViewController();

@@ -17,6 +17,22 @@ function MoviesViewController() {
             var vc = new MoviesViewController();
             vc.Create();
         });
+        $('#btnUpdate').click(function () {
+            var vc = new MoviesViewController();
+            vc.Update();
+        });
+        $('#btnDelete').click(function () {
+            var vc = new MoviesViewController();
+            vc.Delete();
+        });
+        $('#btnSearchById').click(function () {
+            var vc = new MoviesViewController();
+            vc.LoadTableById();
+        });
+        $('#btnSearchByTitle').click(function () {
+            var vc = new MoviesViewController();
+            vc.LoadTableByTitle();
+        });
     }
     //Metodo cargar tabla
     this.LoadTable = function () {
@@ -90,8 +106,9 @@ function MoviesViewController() {
 
     this.Update = function () {
         var movieDTO = {};
+                
         //Atributos con valores default, que son controlados por el API
-        movieDTO.id = 0; //ID por defecto
+        movieDTO.id = $('#txtId').val();
         movieDTO.created = "2025-01-01";
         movieDTO.updated = "2025-01-01";
 
@@ -114,7 +131,7 @@ function MoviesViewController() {
         var movieDTO = {};
 
         //Atributos con valores default, que son controlados por el API
-        movieDTO.id = 0;
+        movieDTO.id = $('#txtId').val();
         movieDTO.created = "2025-01-01";
         movieDTO.updated = "2025-01-01";
 
@@ -123,6 +140,7 @@ function MoviesViewController() {
         movieDTO.description = $('#txtDescription').val();
         movieDTO.releaseDate = $('#txtRDate').val();
         movieDTO.genre = $('#txtGenre').val();
+        movieDTO.director = $('#txtDirector').val();
 
         //Enviar data al API
         var ca = new ControlActions();
@@ -131,6 +149,91 @@ function MoviesViewController() {
         ca.DeleteToAPI(service, movieDTO, function () {
             $('#tblMovie').DataTable().ajax.reload();
         })
+    }
+
+    this.LoadTableById = function () {
+
+        var id = $('#txtSearchId').val().trim();
+
+        var ca = new ControlActions();
+        var service = this.ApiEndPointName + "/RetrieveById?id=" + id;
+        var urlService = ca.GetUrlApiService(service);
+
+        if (!id) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'ID requerido',
+                text: 'Por favor, ingrese un ID válido antes de continuar.',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+        var columns = [];
+        columns[0] = { 'data': 'id' }
+        columns[1] = { 'data': 'title' }
+        columns[2] = { 'data': 'description' }
+        columns[3] = { 'data': 'releaseDate' }
+        columns[4] = { 'data': 'genre' }
+        columns[5] = { 'data': 'director' }
+
+        // Destruye la tabla si ya existía
+        if ($.fn.DataTable.isDataTable('#tblMovie')) {
+            $('#tblMovie').DataTable().clear().destroy();
+        }
+        $('#tblMovie').dataTable({
+            "ajax": {
+                url: urlService,
+                "dataSrc": function (json) {
+                    return Array.isArray(json) ? json : [json];
+                },
+
+            },
+            columns: columns
+        });
+
+    }
+    this.LoadTableByTitle = function () {
+
+        var title = $('#txtSearchTitle').val().trim();
+
+        var ca = new ControlActions();
+        var service = this.ApiEndPointName + "/RetrieveByTitle?Title=" + title;
+        var urlService = ca.GetUrlApiService(service);
+
+        if (!title) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Titulo requerido',
+                text: 'Por favor, ingrese un Titulo antes de continuar.',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+
+        var columns = [];
+        columns[0] = { 'data': 'id' }
+        columns[1] = { 'data': 'title' }
+        columns[2] = { 'data': 'description' }
+        columns[3] = { 'data': 'releaseDate' }
+        columns[4] = { 'data': 'genre' }
+        columns[5] = { 'data': 'director' }
+
+        // Destruye la tabla si ya existía
+        if ($.fn.DataTable.isDataTable('#tblMovie')) {
+            $('#tblMovie').DataTable().clear().destroy();
+        }
+
+        $('#tblMovie').dataTable({
+            "ajax": {
+                url: urlService,
+                "dataSrc": function (json) {
+                    return Array.isArray(json) ? json : [json];
+                },
+
+            },
+            columns: columns
+        });
+
     }
 
 }

@@ -68,32 +68,32 @@ namespace DataAccess.CRUD
             return default(T);
         }
 
-        public T RetrieveByUserCode<T>(User user)
+        public T RetrieveByUserCode<T>(string UserCode)
         {
             var sqlOpration = new SqlOperation() { ProcedureName = "RET_USER_BY_CODE_PR" };
-            sqlOpration.AddStringParameter("P_CODE", user.UserCode);
+            sqlOpration.AddStringParameter("P_CODE", UserCode);
             
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOpration);
 
             if (lstResults.Count > 0)
             {
                 var row = lstResults[0];
-                user = BuildUser(row);
+                var user  = BuildUser(row);
                 return (T)Convert.ChangeType(user, typeof(T));
             }
             return default(T);
         }
-        public T RetrieveByEmail<T>(User user)
+        public T RetrieveByEmail<T>(string Email)
         {
             var sqlOperation = new SqlOperation() { ProcedureName = "RET_USER_BY_EMAIL_PR" };
-            sqlOperation.AddStringParameter("P_EMAIL", user.Email);
+            sqlOperation.AddStringParameter("P_EMAIL", Email);
 
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
 
             if (lstResults.Count > 0)
             {
                 var row = lstResults[0];
-                user = BuildUser(row);
+                var user = BuildUser(row);
 
                 return (T)Convert.ChangeType(user, typeof(T));
             }
@@ -133,6 +133,7 @@ namespace DataAccess.CRUD
             };
             return user;
         }
+
     }
 
 }

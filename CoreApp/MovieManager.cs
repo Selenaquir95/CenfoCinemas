@@ -12,21 +12,21 @@ namespace CoreApp
 {
     public class MovieManager : BaseManager
     {
-        public async void Create(Movie movie)
+        public async Task Create(Movie movie)
         {
             try
             {
                 var mCrud = new MovieCrudFactory();
 
                 // Consulta en la base de datos si existe una película con ese título
-                var mExist = mCrud.RetrieveByTitle<Movie>(movie);
+                var mExist = mCrud.RetrieveByTitle<Movie>(movie.Title);
 
                 if (mExist == null)
                 {
                     mCrud.Create(movie);
                     //Email de pelicula creada
-                    var emailService = new EmailManager();
-                    await emailService.SendEmailMovie(movie);
+                   // var emailService = new EmailManager();
+                    //await emailService.SendEmailMovie(movie);
                 }
                 else
                 {
@@ -49,16 +49,11 @@ namespace CoreApp
             var mCrud = new MovieCrudFactory();
             return mCrud.RetrieveById<Movie>(id);
         }
-        public Movie RetrieveByTitle(string title)
+        public Movie RetrieveByTitle(string Title)
         {
-            var dto = new Movie { Title = title };
-            return RetrieveByTitle(dto);
+            var mCrud = new MovieCrudFactory();
+            return mCrud.RetrieveByTitle<Movie>(Title);
 
-        }
-
-        private Movie RetrieveByTitle(Movie dto)
-        {
-            throw new NotImplementedException();
         }
 
         public Movie Update(Movie movie)
@@ -67,22 +62,11 @@ namespace CoreApp
             mCrud.Update(movie);
             return RetrieveById(movie.Id);
         }
-        public void Delete(Movie movie)
-        {
-            try
-            {
-                var mCrud = new MovieCrudFactory();
-                mCrud.Delete(movie);
-            }
-            catch (Exception ex)
-            {
-                ManageException(ex);
-            }
-        }
-
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var uCrud = new MovieCrudFactory();
+            uCrud.Delete(new Movie { Id = id });
         }
+
     }
 }

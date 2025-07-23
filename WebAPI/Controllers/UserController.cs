@@ -16,12 +16,12 @@ namespace WebAPI.Controllers
         [HttpPost]
         [Route("Create")]
 
-        public ActionResult Create(User user)
+        public async Task <ActionResult> Create(User user)
         {
             try
             {
                 var um = new UserManager();
-                um.Create(user);
+                await um.Create(user);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -53,8 +53,31 @@ namespace WebAPI.Controllers
             {
                 var um = new UserManager();
                 var result = um.RetrieveById(id);
+                if (result == null)
+                {
+                    return Ok(new List<object>());
+                }
+                return Ok(new List<object> { result });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }  
+        }
 
-               return Ok(result);
+        [HttpGet]
+        [Route("RetrieveByEmail")]
+        public ActionResult RetrieveByEmail(string email)
+        {
+            try
+            {
+                var um = new UserManager();
+                var result = um.RetrieveByEmail(email);
+                if (result == null)
+                {
+                    return Ok(new List<object>());
+                }
+                return Ok(new List<object> { result });
             }
             catch (Exception ex)
             {
@@ -63,32 +86,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("RetrieveByEmail")]
-        public ActionResult RetrieveByEmail(User user)
-        {
-            try
-            {
-                var um = new UserManager();
-                var result = um.RetrieveByEmail(user);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { error = ex.Message });
-            }
-        }
-
-        [HttpGet]
         [Route("RetrieveByUserCode")]
-        public ActionResult RetrieveByUserCode(User user)
+        public ActionResult RetrieveByUserCode(string userCode)
         {
             try
             {
                 var um = new UserManager();
-                var result = um.RetrieveByUserCode(user);
-
-                return Ok(result);
+                var result = um.RetrieveByUserCode(userCode);
+                if (result == null)
+                {
+                    return Ok(new List<object>());
+                }
+                return Ok(new List<object> { result });
             }
             catch (Exception ex)
             {
@@ -117,6 +126,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
+        [Route("Delete")]
         public ActionResult Delete(User user)
         {
             try
@@ -132,6 +142,7 @@ namespace WebAPI.Controllers
 
             }
         }
+
     }
 }
 

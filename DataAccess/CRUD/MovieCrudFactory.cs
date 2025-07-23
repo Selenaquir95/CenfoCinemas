@@ -65,17 +65,17 @@ namespace DataAccess.CRUD
 
             return default(T);
         }
-        public T RetrieveByTitle<T>(Movie movie)
+        public T RetrieveByTitle<T>(string Title)
         {
             var sqlOperation = new SqlOperation() { ProcedureName = "RET_MOVIE_BY_TITLE_PR" };
-            sqlOperation.AddStringParameter("P_TITLE", movie.Title);
+            sqlOperation.AddStringParameter("P_TITLE", Title);
 
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
 
             if (lstResults.Count > 0)
             {
                 var row = lstResults[0];
-                movie = BuildMovie(row);
+                var movie = BuildMovie(row);
                 return (T)Convert.ChangeType(movie, typeof(T));
             }
 

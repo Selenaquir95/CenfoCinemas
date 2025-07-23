@@ -11,12 +11,12 @@ namespace WebAPI.Controllers
     {
         [HttpPost]
         [Route("Create")]
-        public ActionResult Create(Movie movie)
+        public async Task<ActionResult> Create(Movie movie)
         {
             try
             {
                 var mm = new MovieManager();
-                mm.Create(movie);
+                await mm.Create(movie);
                 return Ok(movie);
             }
             catch (Exception ex)
@@ -47,7 +47,11 @@ namespace WebAPI.Controllers
             {
                 var mm = new MovieManager();
                 var result = mm.RetrieveById(id);
-                return Ok(result);
+                if (result == null)
+                {
+                    return Ok(new List<object>());
+                }
+                return Ok(new List<object> { result });
             }
             catch (Exception ex)
             {
@@ -61,14 +65,16 @@ namespace WebAPI.Controllers
             try
             {
                 var mm = new MovieManager();
-                var movie = mm.RetrieveByTitle(title);
-                if (movie == null)
-                    return NotFound($"No se halló película con título '{title}'.");
-                return Ok(movie);
+                var result = mm.RetrieveByTitle(title);
+                if (result == null)
+                {
+                    return Ok(new List<object>());
+                }
+                return Ok(new List<object> { result });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new { error = ex.Message });
             }
         }
         [HttpPut]
@@ -79,7 +85,11 @@ namespace WebAPI.Controllers
             {
                 var mm = new MovieManager();
                 var update = mm.Update(movie);
-                return Ok(movie);
+                return Ok(update);
+            }
+            catch (KeyNotFoundException kmf)
+            {
+                return NotFound(new { error = kmf.Message });
             }
             catch (Exception ex)
             {
